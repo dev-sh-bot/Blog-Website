@@ -1,0 +1,4 @@
+import { z } from "zod";
+
+export const postInputSchema = z.object({ title: z.string().trim().min(3).max(180), slug: z.string().trim().min(3).max(180).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Use lowercase words separated by hyphens."), excerpt: z.string().trim().min(10).max(320), content: z.string().min(1).max(500000), authorId: z.string().min(1), categoryId: z.string().min(1), tagIds: z.array(z.string()).max(30).default([]), template: z.enum(["classic", "magazine", "minimal"]).default("classic"), status: z.enum(["draft", "published", "scheduled", "archived"]).default("draft"), publishedAt: z.string(), featuredImage: z.object({ url: z.string().url(), alt: z.string().min(1).max(240), caption: z.string().max(300).optional(), width: z.number().int().positive().optional(), height: z.number().int().positive().optional() }), seo: z.record(z.string(), z.string()).default({}) });
+export const postUpdateSchema = postInputSchema.partial();

@@ -1,0 +1,20 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() { return request.auth != null; }
+    function isAdmin() { return signedIn() && firestore.get(/databases/(default)/documents/admins/$(request.auth.uid)).data.active == true; }
+    function validImage() { return request.resource.size <= 5 * 1024 * 1024 && request.resource.contentType.matches('image/(jpeg|png|webp)') && request.resource.name.matches('.*\\.(jpg|jpeg|png|webp)$'); }
+    match /media/public/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin() && validImage();
+      allow delete: if isAdmin();
+    }
+    match /media/editor/{uid}/{allPaths=**} {
+      allow read, delete: if isAdmin();
+      allow write: if isAdmin() && request.auth.uid == uid && validImage();
+    }
+    match /{allPaths=**} {
+      allow read, write, delete: if false;
+    }
+  }
+}

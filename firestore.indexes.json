@@ -1,0 +1,9 @@
+{
+  "indexes": [
+    { "collectionGroup": "posts", "queryScope": "COLLECTION", "fields": [{ "fieldPath": "status", "order": "ASCENDING" }, { "fieldPath": "publishedAt", "order": "DESCENDING" }, { "fieldPath": "__name__", "order": "DESCENDING" }] },
+    { "collectionGroup": "posts", "queryScope": "COLLECTION", "fields": [{ "fieldPath": "categoryId", "order": "ASCENDING" }, { "fieldPath": "status", "order": "ASCENDING" }, { "fieldPath": "publishedAt", "order": "DESCENDING" }, { "fieldPath": "__name__", "order": "DESCENDING" }] },
+    { "collectionGroup": "posts", "queryScope": "COLLECTION", "fields": [{ "fieldPath": "authorId", "order": "ASCENDING" }, { "fieldPath": "status", "order": "ASCENDING" }, { "fieldPath": "publishedAt", "order": "DESCENDING" }, { "fieldPath": "__name__", "order": "DESCENDING" }] },
+    { "collectionGroup": "posts", "queryScope": "COLLECTION", "fields": [{ "fieldPath": "tagIds", "arrayConfig": "CONTAINS" }, { "fieldPath": "status", "order": "ASCENDING" }, { "fieldPath": "publishedAt", "order": "DESCENDING" }, { "fieldPath": "__name__", "order": "DESCENDING" }] }
+  ],
+  "fieldOverrides": []
+}

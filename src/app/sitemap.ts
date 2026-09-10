@@ -1,0 +1,7 @@
+import type { MetadataRoute } from "next";
+import { getAllPublishedPosts, getAuthors, getCategories, getTags } from "@/lib/data";
+import { siteUrl } from "@/lib/config";
+
+export const dynamic = "force-dynamic";
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> { const [posts, categories, tags, authors] = await Promise.all([getAllPublishedPosts(), getCategories(), getTags(), getAuthors()]); return [{ url: siteUrl, lastModified: new Date(), changeFrequency: "daily", priority: 1 }, { url: `${siteUrl}/blog`, lastModified: new Date(), changeFrequency: "daily", priority: .9 }, { url: `${siteUrl}/about`, lastModified: new Date(), changeFrequency: "monthly", priority: .5 }, { url: `${siteUrl}/contact`, lastModified: new Date(), changeFrequency: "monthly", priority: .4 }, ...posts.map((post) => ({ url: `${siteUrl}/blog/${post.slug}`, lastModified: new Date(post.updatedAt), changeFrequency: "weekly" as const, priority: .8 })), ...categories.map((category) => ({ url: `${siteUrl}/category/${category.slug}`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: .6 })), ...tags.map((tag) => ({ url: `${siteUrl}/tag/${tag.slug}`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: .4 })), ...authors.map((author) => ({ url: `${siteUrl}/author/${author.slug}`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: .4 }))]; }
