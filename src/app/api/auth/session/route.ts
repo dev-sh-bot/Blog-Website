@@ -7,7 +7,7 @@ const schema = z.object({ idToken: z.string().min(20) });
 
 export async function POST(request: Request) {
   const parsed = schema.safeParse(await request.json().catch(() => null));
-  const auth = getAdminAuth(); const db = getAdminDb();
+  const auth = await getAdminAuth(); const db = getAdminDb();
   if (!parsed.success || !auth || !db) return NextResponse.json({ error: "Firebase Auth is not configured." }, { status: 503 });
   try {
     const decoded = await auth.verifyIdToken(parsed.data.idToken);

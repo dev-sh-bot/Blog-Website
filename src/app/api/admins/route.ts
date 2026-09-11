@@ -16,7 +16,7 @@ export async function POST(request: Request) {
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const db = getAdminDb();
-  const auth = getAdminAuth();
+  const auth = await getAdminAuth();
   if (!db || !auth) return NextResponse.json({ error: "Firebase is not configured" }, { status: 503 });
   if (!(session.role === "owner" || session.role === "admin")) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 

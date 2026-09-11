@@ -1,7 +1,7 @@
 "use client";
 
 import "summernote/dist/summernote-lite.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type SummernoteApi = {
   summernote?: (options: Record<string, unknown> | string, value?: string) => unknown;
@@ -15,6 +15,7 @@ export function SummernoteEditor({ value, onChange, onImageUpload }: { value: st
   const initialValue = useRef(value);
   const onChangeRef = useRef(onChange);
   const onImageUploadRef = useRef(onImageUpload);
+  const [fallbackMode, setFallbackMode] = useState(false);
 
   useEffect(() => { onChangeRef.current = onChange; }, [onChange]);
   useEffect(() => { onImageUploadRef.current = onImageUpload; }, [onImageUpload]);
@@ -23,16 +24,20 @@ export function SummernoteEditor({ value, onChange, onImageUpload }: { value: st
     let active = true;
     (async () => {
       if (!ref.current) return;
+      let summernoteInitialized = false;
       try {
         const jquery = (await import("jquery")).default;
         await import("summernote/dist/summernote-lite.js");
         if (!active || !ref.current) return;
         const editor = jquery(ref.current) as unknown as SummernoteApi;
         if (typeof editor.summernote === "function") {
+          ref.current.innerHTML = initialValue.current;
           editor.summernote({
             height: 320,
             placeholder: "Tell the story…",
-            toolbar: [["style", ["style"]], ["font", ["bold", "italic", "underline", "clear"]], ["para", ["ul", "ol", "paragraph"]], ["table", ["table"]], ["insert", ["link", "picture", "video"]], ["view", ["fullscreen", "codeview", "help"]]],
+            toolbar: [["style", ["style"]], ["font", ["bold", "italic", "underline", "clear", "fontname", "fontsize"]], ["color", ["color"]], ["para", ["ul", "ol", "paragraph"]], ["table", ["table"]], ["insert", ["link", "picture", "video"]], ["view", ["fullscreen", "codeview", "help"]]],
+            fontNames: ["Arial", "Arial Black", "Comic Sans MS", "Courier New", "Helvetica", "Impact", "Tahoma", "Times New Roman", "Verdana"],
+            fontSizes: ["8", "9", "10", "11", "12", "14", "16", "18", "20", "24", "28", "36"],
             callbacks: {
               onChange: (html: string) => { lastEditorValue.current = html; onChangeRef.current(html); },
               onImageUpload: async (files: File[]) => {
@@ -43,6 +48,7 @@ export function SummernoteEditor({ value, onChange, onImageUpload }: { value: st
               },
             },
           });
+          summernoteInitialized = true;
           apiRef.current = editor;
           initializedRef.current = true;
           lastEditorValue.current = initialValue.current;
@@ -50,13 +56,17 @@ export function SummernoteEditor({ value, onChange, onImageUpload }: { value: st
           editable?.setAttribute("role", "textbox");
           editable?.setAttribute("aria-multiline", "true");
           editable?.setAttribute("aria-label", "Article content");
-          editor.summernote("code", initialValue.current);
+          try { editor.summernote("code", initialValue.current); } catch { /* Summernote already has the initial HTML. */ }
           return;
         }
       } catch {
         // The accessible contentEditable fallback remains usable if Summernote cannot load.
       }
-      if (active && ref.current) ref.current.innerHTML = initialValue.current;
+      const summernoteEditorExists = Boolean(ref.current?.parentElement?.querySelector(".note-editor"));
+      if (active && ref.current && !summernoteInitialized && !summernoteEditorExists) {
+        setFallbackMode(true);
+        ref.current.innerHTML = initialValue.current;
+      }
     })();
     return () => {
       active = false;
@@ -78,5 +88,5 @@ export function SummernoteEditor({ value, onChange, onImageUpload }: { value: st
     onChangeRef.current(html);
   }
 
-  return <div className="summernote-shell"><div className="summernote-toolbar" aria-label="Editor controls"><button type="button" onClick={() => document.execCommand("bold")}>Bold</button><button type="button" onClick={() => document.execCommand("italic")}>Italic</button><button type="button" onClick={() => document.execCommand("insertUnorderedList")}>List</button><button type="button" onClick={() => document.execCommand("formatBlock", false, "h2")}>Heading</button><button type="button" onClick={() => document.execCommand("formatBlock", false, "blockquote")}>Quote</button></div><div ref={ref} className="summernote-content" contentEditable suppressContentEditableWarning onInput={fallbackInput} role="textbox" aria-multiline="true" aria-label="Article content" /> </div>;
+  return <div className="summernote-shell">{fallbackMode && <div className="summernote-toolbar" aria-label="Editor controls"><button type="button" onClick={() => document.execCommand("bold")}>Bold</button><button type="button" onClick={() => document.execCommand("italic")}>Italic</button><button type="button" onClick={() => document.execCommand("insertUnorderedList")}>List</button><button type="button" onClick={() => document.execCommand("formatBlock", false, "h2")}>Heading</button><button type="button" onClick={() => document.execCommand("formatBlock", false, "blockquote")}>Quote</button></div>}<div ref={ref} className="summernote-content" hidden={!fallbackMode} contentEditable={fallbackMode} suppressContentEditableWarning onInput={fallbackMode ? fallbackInput : undefined} role="textbox" aria-multiline="true" aria-label="Article content" /> </div>;
 }

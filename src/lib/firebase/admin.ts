@@ -1,7 +1,6 @@
 import "server-only";
 
 import { cert, getApps, initializeApp } from "firebase-admin/app";
-import { getAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
 import { getStorage } from "firebase-admin/storage";
 
@@ -34,7 +33,9 @@ export function getAdminStorage() {
   return app ? getStorage(app) : null;
 }
 
-export function getAdminAuth() {
+export async function getAdminAuth() {
   const app = getAdminApp();
-  return app ? getAuth(app) : null;
+  if (!app) return null;
+  const { getAuth } = await import("firebase-admin/auth");
+  return getAuth(app);
 }

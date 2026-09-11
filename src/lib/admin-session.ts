@@ -8,7 +8,7 @@ export const ADMIN_COOKIE = "insightly_admin_session";
 export async function getAdminSession() {
   const token = (await cookies()).get(ADMIN_COOKIE)?.value;
   if (!token) return null;
-  const auth = getAdminAuth(); const db = getAdminDb();
+  const auth = await getAdminAuth(); const db = getAdminDb();
   if (!auth || !db) return null;
   try {
     const decoded = await auth.verifySessionCookie(token, true);
