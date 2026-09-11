@@ -61,6 +61,18 @@ test("admin editor exposes publishing, SEO and Summernote controls", async ({ pa
   await expect(page.locator(".note-editor")).toBeVisible();
 });
 
+test("saving a new draft opens its edit page", async ({ page }) => {
+  await page.route("**/api/posts", async (route) => {
+    if (route.request().method() !== "POST") return route.continue();
+    await route.fulfill({ status: 201, contentType: "application/json", body: JSON.stringify({ id: "qa-created-post" }) });
+  });
+  await page.goto("/admin/posts/new");
+  await page.getByLabel("Title", { exact: true }).fill("QA redirect test");
+  await page.getByLabel("Excerpt").fill("Temporary QA redirect test.");
+  await page.getByRole("button", { name: "Save draft" }).click();
+  await expect(page).toHaveURL(/\/admin\/posts\/qa-created-post\/edit$/);
+});
+
 test("taxonomy manager exposes add and delete-safe editing controls", async ({ page }) => {
   await page.goto("/admin/categories");
   await expect(page.getByRole("heading", { name: "New category" })).toBeVisible();
