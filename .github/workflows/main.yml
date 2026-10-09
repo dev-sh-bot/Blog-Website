@@ -1,0 +1,59 @@
+name: Deploy geovaulthq
+
+on:
+  push:
+    branches:
+      - master
+
+  workflow_dispatch:
+
+concurrency:
+  group: geovaulthq-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install SSH Password Tool
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y sshpass
+
+      - name: Deploy to DigitalOcean VPS
+        env:
+          SSHPASS: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          sshpass -e ssh \
+            -o StrictHostKeyChecking=accept-new \
+            ${{ secrets.FTP_USER }}@${{ secrets.FTP_HOST }} << 'EOF'
+
+            set -e
+
+            echo "=============================="
+            echo "geovaulthq WEBSITE Deployment"
+            echo "=============================="
+
+            cd "/var/www/geovaulthq.com"
+
+            echo "Current directory:"
+            pwd
+
+            echo "Pulling latest code..."
+            git pull origin main
+
+            # echo "Installing dependencies..."
+            npm ci
+
+            echo "Building NestJS..."
+            NODE_OPTIONS="--max-old-space-size=2048" npm run build
+
+            echo "Restarting PM2..."
+            #pm2 restart salesvince --update-env
+
+            echo "=============================="
+            echo "Deployment Successful ✅"
+            echo "=============================="
+
+          EOF
