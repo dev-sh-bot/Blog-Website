@@ -35,7 +35,7 @@ jobs:
             echo "geovaulthq WEBSITE Deployment"
             echo "=============================="
 
-            cd "/var/www/salesvince.com"
+            cd "/var/www/geovaulthq.com"
 
             echo "Current directory:"
             pwd
