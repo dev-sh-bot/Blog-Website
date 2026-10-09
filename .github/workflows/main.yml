@@ -41,7 +41,7 @@ jobs:
             pwd
 
             echo "Pulling latest code..."
-            git pull origin main
+            git pull
 
             # echo "Installing dependencies..."
             npm ci
@@ -50,7 +50,7 @@ jobs:
             NODE_OPTIONS="--max-old-space-size=2048" npm run build
 
             echo "Restarting PM2..."
-            #pm2 restart salesvince --update-env
+            #pm2 restart geovaulthq --update-env
 
             echo "=============================="
             echo "Deployment Successful ✅"
