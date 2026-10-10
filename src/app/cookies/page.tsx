@@ -5,9 +5,9 @@ import { SiteHeader } from "@/components/site-header";
 import { siteUrl } from "@/lib/config";
 
 export const dynamic = "force-dynamic";
-export const metadata: Metadata = { title: "Cookie policy", description: "How cookies and similar technologies are intended to work on Insightly.", alternates: { canonical: `${siteUrl}/cookies` } };
+export const metadata: Metadata = { title: "Cookie policy", description: "How cookies and similar technologies are intended to work on GeoVaultHQ.", alternates: { canonical: `${siteUrl}/cookies` } };
 
-export default function CookiesPage() { return <><SiteHeader /><main><EditorialPage eyebrow="Legal / Cookies" title={<>Small files.<br />Clear choices.</>} intro="This starter page explains the intended use of cookies and browser storage in the Insightly publication. Update it when you choose your final hosting and analytics services.">
+export default function CookiesPage() { return <><SiteHeader /><main><EditorialPage eyebrow="Legal / Cookies" title={<>Small files.<br />Clear choices.</>} intro="This starter page explains the intended use of cookies and browser storage in the GeoVaultHQ publication. Update it when you choose your final hosting and analytics services.">
   <p><strong>Last updated: September 10, 2026.</strong></p><p>A cookie is a small value saved by a browser. Similar technologies include local storage, session storage, pixels, and server-side identifiers. They can help a site remember a session or understand how a page is used.</p>
   <DetailColumns items={[{ title: "Essential", body: "Authentication and security cookies may be required for admin users to sign in and keep a protected session active." }, { title: "Preferences", body: "A future production version may remember choices such as display preferences only when those choices are implemented and explained." }, { title: "Analytics", body: "Optional measurement should remain disabled in the dummy preview. If enabled later, document the provider, purpose, retention, and opt-out path." }]} />
   <h2>Current demo behaviour</h2><p>There is no Firebase connection in this preview. The public site does not require a reader account, and the newsletter form returns a demo confirmation without saving an email address.</p>

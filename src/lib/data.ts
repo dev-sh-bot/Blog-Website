@@ -250,14 +250,29 @@ export const getSiteSettings = cache(async (): Promise<SiteSettings> => {
   if (!db) return siteConfig;
   const doc = await db.collection("settings").doc("site").get();
   const data = (doc.exists ? doc.data() : {}) as Partial<SiteSettings>;
+  const legacyDescription = "Stories and practical ideas for everyday life: health, travel, food, blogging, culture, personal growth, and more.";
+  const legacyMetaTitle = "Insightly — Stories for every side of life";
+  const legacyOgImage = "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1600&q=85";
+  const legacyTechDescription = "Technology, business and digital insights for curious builders.";
+  const legacyBrand = data.siteName === "Insightly";
   return {
     ...siteConfig,
     ...data,
-    metaTitle: typeof data.metaTitle === "string" ? data.metaTitle : siteConfig.metaTitle,
-    metaDescription: typeof data.metaDescription === "string" ? data.metaDescription : siteConfig.metaDescription,
-    seoKeywords: Array.isArray(data.seoKeywords) ? data.seoKeywords.filter((keyword): keyword is string => typeof keyword === "string") : siteConfig.seoKeywords,
+    siteName: data.siteName === "Insightly" || typeof data.siteName !== "string" ? siteConfig.siteName : data.siteName,
+    siteDescription: legacyBrand || data.siteDescription === legacyDescription || data.siteDescription === legacyTechDescription || typeof data.siteDescription !== "string" ? siteConfig.siteDescription : data.siteDescription,
+    metaTitle: legacyBrand || data.metaTitle === legacyMetaTitle || typeof data.metaTitle !== "string" ? siteConfig.metaTitle : data.metaTitle,
+    metaDescription: legacyBrand || data.metaDescription === legacyDescription || data.metaDescription === legacyTechDescription || typeof data.metaDescription !== "string" ? siteConfig.metaDescription : data.metaDescription,
+    defaultOgImage: legacyBrand || data.defaultOgImage === legacyOgImage || typeof data.defaultOgImage !== "string" ? siteConfig.defaultOgImage : data.defaultOgImage,
+    seoKeywords: legacyBrand || !Array.isArray(data.seoKeywords) ? siteConfig.seoKeywords : data.seoKeywords.filter((keyword): keyword is string => typeof keyword === "string"),
     googleSiteVerification: typeof data.googleSiteVerification === "string" ? data.googleSiteVerification : siteConfig.googleSiteVerification,
     customLinks: Array.isArray(data.customLinks) ? data.customLinks.filter((link): link is CustomSiteLink => typeof link === "object" && link !== null && "label" in link && typeof link.label === "string" && "url" in link && typeof link.url === "string") : siteConfig.customLinks,
-    socialLinks: { ...siteConfig.socialLinks, ...(data.socialLinks ?? {}) },
+    socialLinks: {
+      ...siteConfig.socialLinks,
+      ...(data.socialLinks ?? {}),
+      twitter: data.socialLinks?.twitter === "https://x.com/insightly" ? "" : data.socialLinks?.twitter ?? siteConfig.socialLinks.twitter,
+      linkedin: data.socialLinks?.linkedin === "https://www.linkedin.com/" ? "" : data.socialLinks?.linkedin ?? siteConfig.socialLinks.linkedin,
+      instagram: data.socialLinks?.instagram === "https://www.instagram.com/" ? "" : data.socialLinks?.instagram ?? siteConfig.socialLinks.instagram,
+      youtube: data.socialLinks?.youtube === "https://www.youtube.com/" ? "" : data.socialLinks?.youtube ?? siteConfig.socialLinks.youtube,
+    },
   };
 });

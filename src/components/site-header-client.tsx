@@ -4,7 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment, useEffect, useId, useRef, useState } from "react";
 import type { Taxonomy } from "@/lib/types";
-import { ArrowIcon, ChevronDownIcon, SparkIcon } from "./icons";
+import { BrandIdentity } from "./brand-identity";
+import { ArrowIcon, ChevronDownIcon } from "./icons";
 
 const links = [["Home", "/"], ["The journal", "/blog"], ["Topics", "/topics"], ["About", "/about"]];
 
@@ -68,7 +69,7 @@ export function SiteHeaderClient({ siteName, categories }: { siteName: string; c
 
   return <header className="site-header" onKeyDown={(event) => { if (event.key === "Escape" && open) { setOpen(false); menuRef.current?.focus(); } }}>
     <div className="container header-inner">
-      <Link href="/" className="brand" onClick={() => setOpen(false)} aria-label={`${siteName} home`}><SparkIcon className="brand-symbol" /><span>{siteName}<span className="brand-period">.</span></span></Link>
+      <Link href="/" className="brand" onClick={() => setOpen(false)} aria-label={`${siteName} home`}><BrandIdentity siteName={siteName} /></Link>
       <nav className="desktop-nav" aria-label="Primary navigation">{links.map(([label, href]) => <Fragment key={href}>
         <Link href={href} className={active(href) ? "active" : ""} aria-current={active(href) ? "page" : undefined}>{label}</Link>
         {href === "/blog" && categories.length > 0 ? <CategoryDropdown categories={categories} pathname={pathname} /> : null}

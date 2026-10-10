@@ -6,7 +6,7 @@ import { SiteHeader } from "@/components/site-header";
 import { siteUrl } from "@/lib/config";
 
 export const dynamic = "force-dynamic";
-export const metadata: Metadata = { title: "Subscribe", description: "Subscribe to the Insightly weekly perspective for thoughtful stories across everyday life.", alternates: { canonical: `${siteUrl}/subscribe` } };
+export const metadata: Metadata = { title: "Subscribe", description: "Subscribe to the GeoVaultHQ weekly dispatch for stories that open up a wider view of the world.", alternates: { canonical: `${siteUrl}/subscribe` } };
 
 export default function SubscribePage() {
   return <><SiteHeader /><main><EditorialPage eyebrow="The weekly perspective" title={<>Good reads.<br /><em>Worth making room for.</em></>} intro="A calm, considered edit of stories about living well, going somewhere new, finding your voice, and staying curious.">

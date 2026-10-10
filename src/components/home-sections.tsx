@@ -26,8 +26,8 @@ export function HomeSections({ posts, categories }: { posts: PostWithRelations[]
     </section>}
 
     <section className="publication-intro container" aria-labelledby="publication-title">
-      <div><span className="eyebrow publication-kicker"><span className="status-dot" /> A journal for curious minds</span><h1 id="publication-title">Stories for <em>every side of life.</em><SparkIcon className="title-spark" /></h1></div>
-      <p>Live well. Go somewhere new.<br className="desktop-break" /> Find something that speaks to you.</p>
+      <div><span className="eyebrow publication-kicker"><span className="status-dot" /> Stories beyond borders</span><h1 id="publication-title">A world of stories.<br /><em>Ready to be unlocked.</em><SparkIcon className="title-spark" /></h1></div>
+      <p>Explore the places, ideas, and perspectives<br className="desktop-break" /> that bring our world closer.</p>
     </section>
 
     <nav className="interest-nav container" aria-label="Explore interests">{categories.slice(0, 6).map((category) => <Link key={category.slug} href={`/category/${category.slug}`}>{category.name}</Link>)}<Link className="all-interests" href="/topics">All topics <ArrowIcon width="14" height="14" /></Link></nav>

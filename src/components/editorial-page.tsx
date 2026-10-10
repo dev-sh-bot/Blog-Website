@@ -18,7 +18,7 @@ export function EditorialPage({
 }
 
 export function EditorialCallout({ title, children, href, label }: { title: string; children: React.ReactNode; href?: string; label?: string }) {
-  return <section className="editorial-callout"><div><span className="eyebrow">A note from Insightly</span><h2>{title}</h2><p>{children}</p></div>{href && label && <Link href={href} className="button button-light">{label} ↗</Link>}</section>;
+  return <section className="editorial-callout"><div><span className="eyebrow">A note from GeoVaultHQ</span><h2>{title}</h2><p>{children}</p></div>{href && label && <Link href={href} className="button button-light">{label} ↗</Link>}</section>;
 }
 
 export function DetailColumns({ items }: { items: Array<{ title: string; body: string }> }) {

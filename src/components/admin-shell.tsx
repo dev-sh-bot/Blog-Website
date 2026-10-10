@@ -20,6 +20,7 @@ import {
   UsersIcon,
 } from "./icons";
 import { classNames } from "@/lib/utils";
+import { BrandIdentity } from "./brand-identity";
 
 const nav = [
   { label: "Overview", href: "/admin", icon: DashboardIcon },
@@ -64,8 +65,7 @@ export function AdminShell({ children, title, description }: { children: ReactNo
             <div className="admin-brand-block">
               <div className="admin-brand-row">
                 <Link href="/" className="brand">
-                  <span className="brand-mark" aria-hidden="true">I</span>
-                  <span>Insightly</span>
+                  <BrandIdentity siteName="GeoVaultHQ" />
                 </Link>
                 <button
                   className="admin-sidebar-toggle"
@@ -111,7 +111,7 @@ export function AdminShell({ children, title, description }: { children: ReactNo
         <main className="admin-main">
           <div className="admin-topbar">
             <div className="admin-page-heading">
-              <span className="admin-topbar-label">Insightly CMS <span>/</span> {title}</span>
+              <span className="admin-topbar-label">GeoVaultHQ CMS <span>/</span> {title}</span>
               <h1>{title}</h1>
               {description && <p>{description}</p>}
             </div>

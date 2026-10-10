@@ -1,21 +1,20 @@
 import type { SiteSettings } from "./types";
 
 export const siteConfig: SiteSettings = {
-  siteName: "Insightly",
-  siteDescription: "Stories and practical ideas for everyday life: health, travel, food, blogging, culture, personal growth, and more.",
-  metaTitle: "Insightly — Stories for every side of life",
-  metaDescription: "Stories and practical ideas for everyday life: health, travel, food, blogging, culture, personal growth, and more.",
-  seoKeywords: ["lifestyle", "health and wellness", "travel", "food", "blogging", "personal growth", "home", "culture", "relationships", "technology"],
+  siteName: "GeoVaultHQ",
+  siteDescription: "Explore the places, ideas, and perspectives that bring our world closer.",
+  metaTitle: "GeoVaultHQ — Unlocking the World",
+  metaDescription: "Explore the places, people, and ideas that shape our world with GeoVaultHQ.",
+  seoKeywords: ["geography", "travel", "world cultures", "places", "nature", "history", "global stories", "exploration", "people", "ideas"],
   googleSiteVerification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ?? "",
-  contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@insightly.example",
-  defaultOgImage:
-    "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1600&q=85",
+  contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@geovaulthq.example",
+  defaultOgImage: "/geovaulthq-logo.png",
   customLinks: [],
   socialLinks: {
-    twitter: "https://x.com/insightly",
-    linkedin: "https://www.linkedin.com/",
-    instagram: "https://www.instagram.com/",
-    youtube: "https://www.youtube.com/",
+    twitter: "",
+    linkedin: "",
+    instagram: "",
+    youtube: "",
     facebook: "",
     tiktok: "",
     pinterest: "",

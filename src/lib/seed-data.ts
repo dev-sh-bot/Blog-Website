@@ -453,6 +453,6 @@ export const demoPosts: BlogPost[] = stories.map((story, index) => {
     template: (["magazine", "classic", "minimal"] as const)[index % 3], status: "published", publishedAt,
     createdAt: publishedAt, updatedAt: publishedAt, readingTime: calculateReadingTime(content), viewCount: story.views,
     featured: [0, 1, 4, 10].includes(index),
-    seo: { title: `${story.title} | Insightly`, description: story.excerpt, ogImage: featuredImage.url, twitterCard: "summary_large_image" },
+    seo: { title: `${story.title} | GeoVaultHQ`, description: story.excerpt, ogImage: featuredImage.url, twitterCard: "summary_large_image" },
   };
 });

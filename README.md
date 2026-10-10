@@ -1,6 +1,6 @@
-# Insightly
+# GeoVaultHQ
 
-Insightly is an editorial blog and Firebase-backed publishing CMS built with Next.js App Router, TypeScript, Tailwind CSS and Summernote.js.
+GeoVaultHQ is an editorial blog and Firebase-backed publishing CMS built with Next.js App Router, TypeScript, Tailwind CSS and Summernote.js. Its brand promise is “Unlocking the World.”
 
 The public site works immediately with the included realistic demo dataset. The admin area is protected by default and requires Firebase-backed authentication, Firestore persistence and an active admin allowlist record. A UI-only demo bypass is available only when explicitly enabled for local browser tests; never use it in production.
 

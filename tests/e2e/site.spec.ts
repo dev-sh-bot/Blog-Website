@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 test("homepage exposes publication navigation and newsletter", async ({ page }) => {
   await page.goto("/");
-  await expect(page).toHaveTitle(/Insightly/);
+  await expect(page).toHaveTitle(/GeoVaultHQ/);
   await expect(page.getByRole("heading", { name: "Stories for every side of life." })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Latest articles." })).toBeVisible();
   await expect(page.getByLabel("Email address")).toBeVisible();
